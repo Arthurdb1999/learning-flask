@@ -1,0 +1,7 @@
+venv
+
+.flaskenv
+
+__pycache__
+
+planets.db
