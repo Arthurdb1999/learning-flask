@@ -1,6 +1,6 @@
 venv
 
-.flaskenv
+.env
 
 __pycache__
 
