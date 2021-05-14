@@ -1,5 +1,6 @@
-from app import app, db
-from flask import json, render_template, request, Response
+from app import app, db, api
+from flask import json, render_template, request, Response, jsonify
+from flask_restplus import Resource
 
 courseData = [
         {"courseID":"1111","title":"PHP 101","description":"Intro to PHP","credits":3,"term":"Fall, Spring"},
@@ -7,6 +8,22 @@ courseData = [
         {"courseID":"3333","title":"Adv PHP 201","description":"Advanced PHP Programming","credits":3,"term":"Fall"},
         {"courseID":"4444","title":"Angular 1","description":"Intro to Angular","credits":3,"term":"Fall, Spring"},
         {"courseID":"5555","title":"Java 2","description":"Advanced Java Programming","credits":4,"term":"Fall"}]
+
+@api.route('/api', '/api/')
+class GetAndPost(Resource):
+
+    #GET ALL
+    def get(self):
+        return jsonify(User.objects.all())
+
+    def post(self):
+        
+
+@api.route('/api/<idx>')
+class GetUpdateDelete(Resource):
+    #GET ONE
+    def get(self, idx):
+        return jsonify(User.objects(user_id=idx))
 
 @app.route("/")
 @app.route("/index")
@@ -45,7 +62,7 @@ def api(idx=None):
     return Response(json.dumps(jdata), mimetype="application/json")
 
 class User(db.Document):
-    user_id = db.IntField(unique=True)
+    user_id = db.IntField()
     first_name = db.StringField(max_length=50)
     last_name = db.StringField(max_length=50)
     email = db.StringField(max_length=30)
